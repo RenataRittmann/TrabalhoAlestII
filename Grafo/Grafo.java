@@ -1,10 +1,26 @@
-import java.util.*;
-
-import org.omg.PortableInterceptor.AdapterStateHelper;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Grafo {
+    private class Aresta {
+
+    }
+
+    private class Vertice {
+        LinkedList vertices = new LinkedList<>();
+    }
+    
     public Grafo() {
         // alguma coisa aqui dentro
+    }
+
+    public void lerArquivo() {
+        File arquivo = new File("Grafo.txt");
+        Scanner leitor = new Scanner(arquivo);
+        String[] vertices = leitor.next().split(",");
+        while(leitor.hasNextLine()) {
+            leitor.nextLine().split(",");
+        }
     }
 
     public int numVertices() {
@@ -15,7 +31,7 @@ public class Grafo {
     public List vertices() {
         List vertices = new List<E>();
         return vertices; 
-        }
+    }
 
     public int numEdge() {
         int arestas = 0;
@@ -37,5 +53,16 @@ public class Grafo {
         //retorna os dois vertices (duas pontas) da aresta
     }
 
-    //testando
+    public Vertice opposite(Vertice v, Aresta a) {
+        Vertice outraPonta = new Vertice();
+        return outraPonta;
+    }
+
+    public /*nao faço ideia*/ outDegree(Vertice v) {
+        //return nao faço ideia
+    }
+
+    public /*nao faço ideia*/ inDegree(Vertice v) {
+        //return nao faço ideia
+    }
 }
