@@ -1,68 +1,131 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Grafo {
+
     private class Aresta {
+        private final double peso;
+        private final Vertice inicio;
+        private final Vertice fim;
+
+        public Aresta(double peso, Vertice inicio, Vertice fim) {
+            this.peso = peso;
+            this.inicio = inicio;
+            this.fim = fim;
+        }
+
+        public Vertice getVerticeInicio() {
+            return inicio;
+        }
+
+        public Vertice getVerticeFim() {
+            return fim;
+        }
+
+        public double getPeso() {
+            return peso;
+        }
 
     }
 
     private class Vertice {
-        LinkedList vertices = new LinkedList<>();
+        private String nome;
+
+        public Vertice(String nome) {
+            this.nome = nome;
+        }
+
+        public String getNome() {
+            return nome;
+        }
     }
-    
+
+    private List<Vertice> vertices;
+    private List<Aresta> arestas;
+
     public Grafo() {
-        // alguma coisa aqui dentro
+        vertices = new LinkedList<>();
+        arestas = new LinkedList<>();
     }
 
     public void lerArquivo() {
-        File arquivo = new File("Grafo.txt");
-        Scanner leitor = new Scanner(arquivo);
-        String[] vertices = leitor.next().split(",");
-        while(leitor.hasNextLine()) {
-            leitor.nextLine().split(",");
+        File arquivo = new File("GrafoTeste.txt");
+        try {
+            Scanner leitor = new Scanner(arquivo);
+            String[] vs = leitor.nextLine().split(",");
+            for (int i = 0; i < vs.length; i++) {
+                addVertice(new Vertice(vs[i]));
+            }
+            while (leitor.hasNextLine()) {
+                String[] aresta = leitor.nextLine().split(",");
+                addAresta(new Aresta(Double.parseDouble(aresta[2]), new Vertice(aresta[0]), new Vertice(aresta[1])));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     public int numVertices() {
-        int vertices = 0;
-        return numero; 
+        return vertices.size();
     }
 
-    public List vertices() {
-        List vertices = new List<E>();
-        return vertices; 
+    public List<Vertice> vertices() {
+        return vertices;
     }
 
     public int numEdge() {
-        int arestas = 0;
-        return arestas;
+        return arestas.size();
     }
 
-    public List edges() {
-        List arestas = new List<E>();
+    public List<Aresta> edges() {
         return arestas;
     }
 
     public Aresta getEdge(Vertice u, Vertice v) {
-        return null; 
-        //retorna a aresta que se encontra entre os vertices passados por parametro
+        for (Aresta aresta : arestas) {
+            if (u.equals(aresta.getVerticeInicio()) && v.equals(aresta.getVerticeFim()))
+                return aresta;
+        }
+        return null;
     }
 
-    public Vertice endVertices(Aresta a) {
-        return null; 
-        //retorna os dois vertices (duas pontas) da aresta
+    public List<Vertice> endVertices(Aresta a) {
+        List<Vertice> resp = new LinkedList<>();
+        resp.add(a.getVerticeInicio());
+        resp.add(a.getVerticeFim());
+        return resp;
     }
 
     public Vertice opposite(Vertice v, Aresta a) {
-        Vertice outraPonta = new Vertice();
-        return outraPonta;
+        return a.getVerticeFim();
     }
 
-    public /*nao faço ideia*/ outDegree(Vertice v) {
-        //return nao faço ideia
+    public void addVertice(Vertice v) {
+        vertices.add(v);
     }
 
-    public /*nao faço ideia*/ inDegree(Vertice v) {
-        //return nao faço ideia
+    public void addAresta(Aresta a) {
+        arestas.add(a);
+    }
+
+    public int outDegree(Vertice v) {
+        int count = 0;
+        for (Aresta aresta : arestas) {
+            if (aresta.getVerticeInicio().equals(v))
+                count++;
+        }
+        return count;
+    }
+
+    public int inDegree(Vertice v) {
+        int count = 0;
+        for (Aresta aresta : arestas) {
+            if (aresta.getVerticeFim().equals(v))
+                count++;
+        }
+        return count;
     }
 }
