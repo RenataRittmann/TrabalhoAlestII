@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Grafo {
 
-    private class Aresta {
+    class Aresta {
         private final double peso;
         private final Vertice inicio;
         private final Vertice fim;
@@ -31,7 +31,7 @@ public class Grafo {
 
     }
 
-    private class Vertice {
+    class Vertice {
         private String nome;
 
         public Vertice(String nome) {
@@ -39,6 +39,9 @@ public class Grafo {
         }
 
         public String getNome() {
+            return nome;
+        }
+        public String toString(){
             return nome;
         }
     }
@@ -62,6 +65,7 @@ public class Grafo {
             while (leitor.hasNextLine()) {
                 String[] aresta = leitor.nextLine().split(",");
                 addAresta(new Aresta(Double.parseDouble(aresta[2]), new Vertice(aresta[0]), new Vertice(aresta[1])));
+                addAresta(new Aresta(Double.parseDouble(aresta[2]), new Vertice(aresta[1]), new Vertice(aresta[0])));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -77,7 +81,7 @@ public class Grafo {
     }
 
     public int numEdge() {
-        return arestas.size();
+        return arestas.size()/2;
     }
 
     public List<Aresta> edges() {
@@ -92,11 +96,8 @@ public class Grafo {
         return null;
     }
 
-    public List<Vertice> endVertices(Aresta a) {
-        List<Vertice> resp = new LinkedList<>();
-        resp.add(a.getVerticeInicio());
-        resp.add(a.getVerticeFim());
-        return resp;
+    public Vertice endVertices(Aresta a) {
+        return a.getVerticeFim();
     }
 
     public Vertice opposite(Vertice v, Aresta a) {
