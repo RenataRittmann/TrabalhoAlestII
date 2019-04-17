@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Grafo {
 
     class Aresta {
@@ -11,10 +12,10 @@ public class Grafo {
         private final Vertice inicio;
         private final Vertice fim;
 
-        public Aresta(double peso, Vertice inicio, Vertice fim) {
+        public Aresta(double peso, Vertice string, Vertice string2) {
             this.peso = peso;
-            this.inicio = inicio;
-            this.fim = fim;
+            this.inicio = string;
+            this.fim = string2;
         }
 
         public Vertice getVerticeInicio() {
@@ -31,7 +32,7 @@ public class Grafo {
 
     }
 
-    class Vertice {
+    class Vertice{
         private String nome;
 
         public Vertice(String nome) {
@@ -43,6 +44,21 @@ public class Grafo {
         }
         public String toString(){
             return nome;
+        }
+        @Override
+        public boolean equals(Object outro){
+            if(outro == null){
+                return false;
+            }if(!(outro instanceof Vertice)){
+                return false;
+            }
+            Vertice o = (Vertice) outro;
+            
+            return this.getNome().equals(o.getNome());
+        }
+        @Override
+        public int hashCode(){
+            return this.getNome().hashCode();
         }
     }
 
@@ -65,8 +81,10 @@ public class Grafo {
             while (leitor.hasNextLine()) {
                 String[] aresta = leitor.nextLine().split(",");
                 addAresta(new Aresta(Double.parseDouble(aresta[2]), new Vertice(aresta[0]), new Vertice(aresta[1])));
+                //comentar para tornar o grafo direcionado
                 addAresta(new Aresta(Double.parseDouble(aresta[2]), new Vertice(aresta[1]), new Vertice(aresta[0])));
             }
+            leitor.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -82,6 +100,7 @@ public class Grafo {
 
     public int numEdge() {
         return arestas.size()/2;
+        // não direcionado dividir por 2
     }
 
     public List<Aresta> edges() {
@@ -129,4 +148,6 @@ public class Grafo {
         }
         return count;
     }
+
+
 }
