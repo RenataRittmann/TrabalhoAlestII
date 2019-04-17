@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +32,10 @@ public class Grafo {
 
         public double getPeso() {
             return peso;
+        }
+        public String toString(){
+            String resp = inicio.getNome() +","+ fim.getNome()+","+peso;
+            return resp;
         }
 
     }
@@ -90,6 +98,30 @@ public class Grafo {
         }
     }
 
+    public void escreveArquivo(String fileName){
+        try {
+            File arq = new File(fileName);
+            arq.createNewFile();
+            FileWriter fileW = new FileWriter(arq);
+            BufferedWriter gravarq = new BufferedWriter(fileW);
+    
+            for(int i = 0; i < vertices.size(); i++){
+                
+                gravarq.write(vertices.get(i)+"");
+                if(i != vertices.size() - 1){
+                    gravarq.write(",");
+                }
+            }
+            for(Aresta aresta : arestas){
+                gravarq.write(aresta+"\n");
+            }
+            gravarq.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+    }
     public int numVertices() {
         return vertices.size();
     }
